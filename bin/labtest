@@ -1,0 +1,14 @@
+#!/bin/bash
+
+for task in $(find -type d -name "lab_*"); do
+    if [[ -f "$task/test_all.sh" ]]; then
+        echo $task
+        cd $task
+
+        ./test_all.sh
+        ./clean.sh
+
+        cd ..
+        echo
+    fi
+done

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+if [[ $# -ne 1 ]]; then
+    echo -e "\033[31mНеверное количество параметров!\033[0m"
+    exit 1
+fi
+
+task_name=$1
+
+if [[ -d "./$task_name" ]]; then
+    echo -e "\033[31mДиректория уже существует!\033[0m"
+    exit 1
+fi
+
+echo "Конфигурация задания $task_name..."
+
+cp -r "/home/dayz221/lab_XX/lab_XX_XX_XX.tar" .
+result=$?
+if [[ $result -ne 0 ]]; then
+    echo -e "\033[31mНе удалось скопировать файлы!\033[0m"
+    exit 2
+fi
+
+tar -xvf "./lab_XX_XX_XX.tar"
+result=$?
+if [[ $result -ne 0 ]]; then
+    echo -e "\033[31mНе удалось распаковать файлы!\033[0m"
+    exit 3
+fi
+rm "./lab_XX_XX_XX.tar"
+
+mv "./lab_XX_XX_XX" "./$task_name"
+result=$?
+if [[ $result -ne 0 ]]; then
+    echo -e "\033[31mНе удалось переименовать директорию!\033[0m"
+    exit 3
+fi
+
+for script in $(find "./$task_name" -name "*.sh" -type f); do
+    chmod +x "$script"
+done
+
+echo -e "\033[32mКонфигурация завершена!\033[0m"
