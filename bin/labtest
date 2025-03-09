@@ -1,6 +1,12 @@
 #!/bin/bash
 
-for task in $(find -type d -name "lab_*"); do
+if [[ $# -eq 0 ]]; then
+    mask="lab_*"
+else if [[ $# -eq 1 ]]; then
+    mask=$1
+fi
+
+for task in $(find -type d -name $mask); do
     if [[ -f "$task/test_all.sh" ]]; then
         echo $task
         cd $task
